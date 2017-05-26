@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<div th:replace="fragments/header :: header"></div>
+<body>
+
+<section>
+	<form action="/" method="post">
+	  File name: <input type="text" name="filename"></input><br/>
+	  <input type="submit" value="Submit"></input>
+	</form>
+</section>
+
+	<label th:each="type : ${files}">
+		<input type="checkbox" name="CheckFileName" value="${res.getName()}" th:text="${type.getName()}"></input><br />
+	</label>
+<div lang="en" th:include="fragments/footer :: footer"></div>
+</body>
+</html>
