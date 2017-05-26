@@ -1,18 +1,28 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<link href="../static/css/main.css" th:href="@{css/main.css}" rel="stylesheet" media="screen"/>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.2.0/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}" rel="stylesheet" media="screen" />
+<script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.1/jquery.min.js" th:src="@{/webjars/jquery/2.1.1/jquery.min.js}"></script>
+<link href="../static/css/main.css" th:href="@{css/main.css}" rel="stylesheet" media="screen"/>
+
 <div th:replace="fragments/header :: header"></div>
 <body>
 
 <section>
 	<form action="/" method="post">
+	<div class="form-group">
 	  File name: <input type="text" name="filename"></input><br/>
-	  <input type="submit" value="Submit"></input>
+	</div>
+	  <input type="submit" value="Submit" class="btn btn-primary"></input>
 	</form>
 </section>
 
-	<label th:each="type : ${files}">
-		<input type="checkbox" name="CheckFileName" value="${res.getName()}" th:text="${type.getName()}"></input><br />
-	</label>
+    <div th:each="type : ${files}">
+		<label>
+			<input type="checkbox" name="CheckFileName" value="${res.getName()}" th:text="${type.getName()}"></input><br/>
+		</label>
+	</div>
 <div lang="en" th:include="fragments/footer :: footer"></div>
 </body>
 </html>
