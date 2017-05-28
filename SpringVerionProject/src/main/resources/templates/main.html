@@ -8,20 +8,31 @@
 <head th:replace="fragments/header :: header"></head>
 <body>
 
-<section>
+<div align="center" class="container" >
 	<form action="/" method="post">
 	<div class="form-group">
 	  File name: <input type="text" name="filename"></input><br/>
 	</div>
 	  <input type="submit" value="Submit" class="btn btn-primary"></input>
 	</form>
-</section>
+</div>
 
-    <div th:each="type : ${files}">
-		<label>
-			<input type="checkbox" name="CheckFileName" value="${res.getName()}" th:text="${type.getName()}"></input><br/>
-		</label>
-	</div>
+<div class="row">
+<div align="center" style="background-color: buttonshadow; font-size: large;" >
+Files found!
+</div>
+    <div class="col-sm-2"></div>
+    <div class="col-sm-9" style="background-color:lavender;">    
+	    <div th:each="type : ${files}">
+	      <label >
+				<input type="checkbox" name="CheckFileName" value="${res.getName()}" th:text="${type.getName()}"></input><br/>
+			</label>
+	    </div>
+	     <button type="submit" value="ViewData" class="btn btn-primary">View Data</button>
+	     <button type="submit" value="CompareData" class="btn btn-primary">Compare</button>
+    </div>
+  </div>
+   
 <div lang="en" th:replace="fragments/footer :: footer"></div>
 </body>
 </html>
