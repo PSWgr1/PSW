@@ -12,14 +12,16 @@ Choose data to match
 <form action="/charts" method="post">
 <div id="FilesColumn" class="row">
     <div class="col-sm-2"></div>
-    <div class="col-sm-4">
+    <div class="col-sm-4" style="background-color:lavender;">
+    <div align="center">Choose X</div>
     <div th:each="type : ${DataRow1}">
 	      <label >
 				 <input th:value="${type}" th:text="${type}" type="radio" name="DataRow1data" value="attribute"></input><br/>
 		  </label>
 	    </div>
     </div>
-    <div class="col-sm-4" style="background-color:lavender;">    
+    <div class="col-sm-4" style="background-color:lavender;">
+    <div align="center">Choose Y</div>    
 	    <div th:each="type : ${DataRow2}">
 	      <label >
 				 <input th:value="${type}" th:text="${type}" type="radio" name="DataRow2data" value="attribute"></input><br/>
