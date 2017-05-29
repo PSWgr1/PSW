@@ -6,22 +6,33 @@
 <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.1/jquery.min.js" th:src="@{/webjars/jquery/2.1.1/jquery.min.js}"></script>
 <head th:replace="fragments/header :: header"></head>
 <body>
-<div id="FilesColumn" class="row">
 <div align="center" style="background-color: buttonshadow; font-size: large;" >
-Files found!
+Choose data to match
 </div>
-<form action="/result" method="post" modelAttribute="filess">
+<form action="/charts" method="post">
+<div id="FilesColumn" class="row">
     <div class="col-sm-2"></div>
-    <div class="col-sm-9" style="background-color:lavender;">    
-	    <div th:each="type : ${files}">
-	        <label>
-				<input th:type="checkbox" name="CheckFileName" th:value="${type}" th:text="${type.getName()}" id="CheckFileName"></input><br/>
-			</label>
+    <div class="col-sm-4">
+    <div th:each="type : ${DataRow1}">
+	      <label >
+				 <input th:value="${type}" th:text="${type}" type="radio" name="DataRow1data" value="attribute"></input><br/>
+		  </label>
 	    </div>
-	     <button type="submit" value="ViewData" class="btn btn-primary">View Data</button>
     </div>
-</form>
+    
+    <div class="col-sm-4" style="background-color:lavender;">    
+	    <div th:each="type : ${DataRow2}">
+	      <label >
+				 <input th:value="${type}" th:text="${type}" type="radio" name="DataRow2data" value="attribute"></input><br/>
+		  </label>
+	    </div>
+    </div>
+    <div class="col-sm-5"></div><br/>
   </div>
+  <div align="center">
+    <button type="submit" value="GenerateChart" class="btn btn-primary">Generate Chart</button>
+  </div>
+</form>
 <div lang="en" th:replace="fragments/footer :: footer"></div>
 </body>
 </html>

@@ -4,11 +4,10 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.2.0/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}" rel="stylesheet" media="screen" />
 <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.1/jquery.min.js" th:src="@{/webjars/jquery/2.1.1/jquery.min.js}"></script>
-
 <head th:replace="fragments/header :: header"></head>
 <body>
 
-<div align="center" class="container" >
+<div id="Form" align="center" class="container" >
 	<form action="/" method="post">
 	<div class="form-group">
 	  File name: <input type="text" name="filename"></input><br/>
@@ -17,22 +16,6 @@
 	</form>
 </div>
 
-<div class="row">
-<div align="center" style="background-color: buttonshadow; font-size: large;" >
-Files found!
-</div>
-    <div class="col-sm-2"></div>
-    <div class="col-sm-9" style="background-color:lavender;">    
-	    <div th:each="type : ${files}">
-	      <label >
-				<input type="checkbox" name="CheckFileName" value="${res.getName()}" th:text="${type.getName()}"></input><br/>
-			</label>
-	    </div>
-	     <button type="submit" value="ViewData" class="btn btn-primary">View Data</button>
-	     <button type="submit" value="CompareData" class="btn btn-primary">Compare</button>
-    </div>
-  </div>
-   
 <div lang="en" th:replace="fragments/footer :: footer"></div>
 </body>
 </html>
