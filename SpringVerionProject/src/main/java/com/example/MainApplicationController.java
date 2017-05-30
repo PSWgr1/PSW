@@ -12,13 +12,18 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.example.Engine.ASCIIFile;
 import com.example.Engine.PropertiesReader;
 import com.example.Engine.RepositoryChecker;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Controller
 public class MainApplicationController {
+	
+	List<ASCIIFile> asciiList;
 
 	@RequestMapping(value= "/", method=RequestMethod.GET)
 	public String main(Model model){
@@ -43,7 +48,7 @@ public class MainApplicationController {
 	
 	@RequestMapping(value = "/result", method = RequestMethod.POST)
     public String getData(@RequestParam("CheckFileName") List<File> values ,HttpServletRequest request, Model model) {
-		List<ASCIIFile> asciiList = new ArrayList<>();
+		asciiList = new ArrayList<>();
 			if(values.size() >0){
 				try {
 					for (File asciiFile : values) {
@@ -62,4 +67,39 @@ public class MainApplicationController {
 		}
 		return "chosenfiles";
     }
+	
+	@RequestMapping(value = "/charts", method = RequestMethod.POST)
+    public String getChart(@RequestParam("DataRow1data") String XAsis, @RequestParam("DataRow2data") String YAsis ,HttpServletRequest request, ModelAndView model) {
+		System.out.println(XAsis);
+		System.out.println(YAsis);
+		int indexOfXValue =1;
+		int indexOfYValue =1;
+		for (String string : asciiList.get(0).HEADERS) {
+			if(string.equals(XAsis)){
+				break;
+			}
+			indexOfXValue++;
+		}
+		for (String string : asciiList.get(0).HEADERS) {
+			if(string.equals(YAsis)){
+				break;
+			}
+			indexOfYValue++;
+		}
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+		try {
+			List<Double> listX = asciiList.get(0).VALUES.get(indexOfXValue);
+			List<Double> listY = asciiList.get(0).VALUES.get(indexOfYValue);
+			objectMapper.writeValue(new File(System.getProperty("user.dir")+"/ConfigurationFiles/XAsis.json"), listX);
+			objectMapper.writeValue(new File(System.getProperty("user.dir")+"/ConfigurationFiles/YAsis.json"), listY);
+			//model.addAttribute("XAsisData",new File(System.getProperty("user.dir")+"/ConfigurationFiles/XAsis.json"));
+			//model.addAttribute("YAsisData",new File(System.getProperty("user.dir")+"/ConfigurationFiles/YAsis.json"));
+			model.addObject("XAsisData", objectMapper.writeValueAsString(listX));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return "charts";
+    }
+	
 }

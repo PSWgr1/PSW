@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+<link th:href="@{/css/main.css}" rel="stylesheet"/>
+<link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.2.0/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}" rel="stylesheet" media="screen" />
+<script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.1/jquery.min.js" th:src="@{/webjars/jquery/2.1.1/jquery.min.js}"></script>
+<script src="http://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<script type="text/javascript">
+window.onload = function () {
+	function init() {
+		 loadJSON(function(response) {
+		  // Parse JSON string into object
+		    var actual_JSON = JSON.parse(response);
+		 });
+		}
+}
+
+function loadJSON(callback) {   
+	alert("Put a message here.");
+    var xobj = new XMLHttpRequest();
+    xobj.open('POST', '../../../../../ConfigurationFiles/Xasis.json', true); // Replace 'my_data' with the path to your file
+    xobj.onreadystatechange = function () {
+          if (xobj.readyState == 4 &amp;&amp; xobj.status == "200") {
+            // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
+            callback(xobj.responseText);
+          }
+    };
+    xobj.send(null);  
+ }
+</script>
+
+<head th:replace="fragments/header :: header"></head>
+<body>
+
+<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+<div lang="en" th:replace="fragments/footer :: footer"></div>
+</body>
+</html>
