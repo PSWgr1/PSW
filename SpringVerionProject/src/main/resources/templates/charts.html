@@ -5,33 +5,72 @@
 <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.2.0/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}" rel="stylesheet" media="screen" />
 <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.1/jquery.min.js" th:src="@{/webjars/jquery/2.1.1/jquery.min.js}"></script>
 <script src="http://canvasjs.com/assets/script/canvasjs.min.js"></script>
-<script type="text/javascript">
-window.onload = function () {
-	function init() {
-		 loadJSON(function(response) {
-		  // Parse JSON string into object
-		    var actual_JSON = JSON.parse(response);
-		 });
-		}
-}
-
-function loadJSON(callback) {   
-	alert("Put a message here.");
-    var xobj = new XMLHttpRequest();
-    xobj.open('POST', '../../../../../ConfigurationFiles/Xasis.json', true); // Replace 'my_data' with the path to your file
-    xobj.onreadystatechange = function () {
-          if (xobj.readyState == 4 &amp;&amp; xobj.status == "200") {
-            // Required use of an anonymous callback as .open will NOT return a value but simply returns undefined in asynchronous mode
-            callback(xobj.responseText);
-          }
-    };
-    xobj.send(null);  
- }
-</script>
 
 <head th:replace="fragments/header :: header"></head>
 <body>
+<script th:inline="javascript">
+//<![CDATA[
+	function init() {
+		var dataX = document.getElementById("XAsis").value;
+		var dataY = document.getElementById("YAsis").value;
+		var XHead = document.getElementById("XHead").value;
+		var yHead = document.getElementById("YHead").value;
 
+		var XinParts = dataX.split(',');
+		var YinParts = dataY.split(',');
+
+		if (XinParts.lenght != YinParts.lenght) {
+			alert("Wrong Datas!");
+			return false;
+		}
+		var datatable = new Array();
+		var l = XinParts.length;
+		
+		XinParts[0] = XinParts[0].replace('[','');
+		YinParts[0] = YinParts[0].replace('[','');
+		XinParts[XinParts.length] = XinParts[XinParts.length-1].replace('[','');
+		XinParts[YinParts.length] = XinParts[YinParts.length-1].replace('[','');
+		
+		
+		
+		for(var i=0; i<l; i++) {
+			datatable.push({x: parseFloat(XinParts[i]), y: parseFloat(YinParts[i])});
+        }
+		
+		var chart = new CanvasJS.Chart("chartContainer",{
+			title :{
+				text: "Chart Generated"
+			},
+			axisX: {						
+				title: XHead
+			},
+			axisY: {						
+				title: yHead
+			},
+			data: [{
+				type: "line",
+				dataPoints : datatable
+			}]
+		});
+		 
+		chart.render();
+		
+	}
+	/*]]>*/
+</script>
+<div style="display: none" th:each="type : ${dataJsonX}">
+				<input th:type="list" name="XAsis" th:value="${type}" th:text="${type}" id="XAsis"></input><br/>
+</div>
+<div style="display: none" th:each="type : ${dataJsonY}">
+				<input th:type="list" name="YAsis" th:value="${type}" th:text="${type}" id="YAsis"></input><br/>
+</div>
+
+<input style="display: none" th:type="list" name="XHead" th:value="${XHeader}"  id="XHead"></input><br/>
+<input style="display: none" th:type="list" name="YHead" th:value="${YHeader}"  id="YHead"></input><br/>
+
+<div>
+<button onclick="init()">Say data</button>
+</div>
 <div id="chartContainer" style="height: 300px; width: 100%;"></div>
 <div lang="en" th:replace="fragments/footer :: footer"></div>
 </body>

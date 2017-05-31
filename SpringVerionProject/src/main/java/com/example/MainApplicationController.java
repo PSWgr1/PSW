@@ -7,13 +7,13 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.json.JSONArray;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.example.Engine.ASCIIFile;
 import com.example.Engine.PropertiesReader;
@@ -24,7 +24,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class MainApplicationController {
 	
 	List<ASCIIFile> asciiList;
-
+	
 	@RequestMapping(value= "/", method=RequestMethod.GET)
 	public String main(Model model){
 		return "main";
@@ -69,7 +69,8 @@ public class MainApplicationController {
     }
 	
 	@RequestMapping(value = "/charts", method = RequestMethod.POST)
-    public String getChart(@RequestParam("DataRow1data") String XAsis, @RequestParam("DataRow2data") String YAsis ,HttpServletRequest request, ModelAndView model) {
+	@ResponseBody
+    public Model getChart(@RequestParam("DataRow1data") String XAsis, @RequestParam("DataRow2data") String YAsis ,HttpServletRequest request, Model model) {
 		System.out.println(XAsis);
 		System.out.println(YAsis);
 		int indexOfXValue =1;
@@ -91,15 +92,24 @@ public class MainApplicationController {
 		try {
 			List<Double> listX = asciiList.get(0).VALUES.get(indexOfXValue);
 			List<Double> listY = asciiList.get(0).VALUES.get(indexOfYValue);
-			objectMapper.writeValue(new File(System.getProperty("user.dir")+"/ConfigurationFiles/XAsis.json"), listX);
+			File fileXAsis = new File(System.getProperty("user.dir")+"/src/main/resources/static/Files/XAsis.json");
+			objectMapper.writeValue(fileXAsis, listX);
 			objectMapper.writeValue(new File(System.getProperty("user.dir")+"/ConfigurationFiles/YAsis.json"), listY);
-			//model.addAttribute("XAsisData",new File(System.getProperty("user.dir")+"/ConfigurationFiles/XAsis.json"));
-			//model.addAttribute("YAsisData",new File(System.getProperty("user.dir")+"/ConfigurationFiles/YAsis.json"));
-			model.addObject("XAsisData", objectMapper.writeValueAsString(listX));
+//			response.getOutputStream().write(IOUtils.toByteArray(new FileInputStream(fileXAsis)));
+//			response.setContentType("application/json");
+			System.out.println(fileXAsis.getAbsolutePath());
+			model.addAttribute("datasX", listX);
+			JSONArray listXX = new JSONArray(listX);
+			JSONArray listYY = new JSONArray(listY);
+			model.addAttribute("dataJsonX", listXX.toString());
+			model.addAttribute("dataJsonY", listYY.toString());
+			model.addAttribute("XHeader", XAsis);
+			model.addAttribute("YHeader", YAsis);
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return "charts";
+		return model;
     }
 	
 }
