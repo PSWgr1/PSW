@@ -38,6 +38,8 @@
         }
 		
 		var chart = new CanvasJS.Chart("chartContainer",{
+			zoomEnabled: true,
+		    zoomType: "xy", 
 			title :{
 				text: "Chart Generated"
 			},
@@ -68,8 +70,8 @@
 <input style="display: none" th:type="list" name="XHead" th:value="${XHeader}"  id="XHead"></input><br/>
 <input style="display: none" th:type="list" name="YHead" th:value="${YHeader}"  id="YHead"></input><br/>
 
-<div>
-<button onclick="init()">Say data</button>
+<div align="center">
+<button onclick="init()" class="btn btn-primary">Generate Chart</button>
 </div>
 <div id="chartContainer" style="height: 300px; width: 100%;"></div>
 <div lang="en" th:replace="fragments/footer :: footer"></div>
