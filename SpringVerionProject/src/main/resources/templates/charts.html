@@ -39,7 +39,10 @@
 		
 		var chart = new CanvasJS.Chart("chartContainer",{
 			zoomEnabled: true,
-		    zoomType: "xy", 
+		    zoomType: "xy",
+		    animationEnabled: true,
+		    animationDuration: 4000,
+		    exportEnabled: true,
 			title :{
 				text: "Chart Generated"
 			},
