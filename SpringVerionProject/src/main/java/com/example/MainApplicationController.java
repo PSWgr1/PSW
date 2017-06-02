@@ -43,7 +43,7 @@ public class MainApplicationController {
 			e.printStackTrace();
 		}
 		model.addAttribute("files", FileOut);
-		return "result";
+		return "main";
     }
 	
 	@RequestMapping(value = "/result", method = RequestMethod.POST)
@@ -65,12 +65,11 @@ public class MainApplicationController {
 			model.addAttribute("DataRow1",new ArrayList<>());
 			model.addAttribute("DataRow2",new ArrayList<>());
 		}
-		return "chosenfiles";
+		return "main";
     }
 	
 	@RequestMapping(value = "/charts", method = RequestMethod.POST)
-	@ResponseBody
-    public Model getChart(@RequestParam("DataRow1data") String XAsis, @RequestParam("DataRow2data") String YAsis ,HttpServletRequest request, Model model) {
+	public String getChart(@RequestParam("DataRow1data") String XAsis, @RequestParam("DataRow2data") String YAsis ,HttpServletRequest request, Model model) {
 		System.out.println(XAsis);
 		System.out.println(YAsis);
 		int indexOfXValue =1;
@@ -109,7 +108,7 @@ public class MainApplicationController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		return model;
+		return "main";
     }
 	
 }

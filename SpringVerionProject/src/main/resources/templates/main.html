@@ -9,6 +9,9 @@
 <body>
 <script th:inline="javascript">
 //<![CDATA[
+	
+	
+	
 function openTab(evt, cityName) {
     var i, tabcontent, tablinks;
     tabcontent = document.getElementsByClassName("tabcontent");
@@ -21,6 +24,59 @@ function openTab(evt, cityName) {
     }
     document.getElementById(cityName).style.display = "block";
     evt.currentTarget.className += " active";
+}
+
+function init() {
+	var dataX = document.getElementById("XAsis").value;
+	var dataY = document.getElementById("YAsis").value;
+	var XHead = document.getElementById("XHead").value;
+	var yHead = document.getElementById("YHead").value;
+
+	var XinParts = dataX.split(',');
+	var YinParts = dataY.split(',');
+
+	if (XinParts.lenght != YinParts.lenght) {
+		alert("Wrong Datas!");
+		return false;
+	}
+	var datatable = new Array();
+	var l = XinParts.length;
+	
+	XinParts[0] = XinParts[0].replace('[','');
+	YinParts[0] = YinParts[0].replace('[','');
+	XinParts[XinParts.length] = XinParts[XinParts.length-1].replace('[','');
+	XinParts[YinParts.length] = XinParts[YinParts.length-1].replace('[','');
+	
+	
+	
+	for(var i=0; i<l; i++) {
+		datatable.push({x: parseFloat(XinParts[i]), y: parseFloat(YinParts[i])});
+    }
+	
+	var chart = new CanvasJS.Chart("chartContainer",{
+		zoomEnabled: true,
+	    zoomType: "xy",
+	    animationEnabled: true,
+	    animationDuration: 4000,
+	    exportEnabled: true,
+	    interactivityEnabled: true,
+		title :{
+			text: "Chart Generated"
+		},
+		axisX: {						
+			title: XHead
+		},
+		axisY: {						
+			title: yHead
+		},
+		data: [{
+			type: "line",
+			dataPoints : datatable
+		}]
+	});
+	 
+	chart.render();
+	
 }
 /*]]>*/
 </script>
@@ -35,20 +91,75 @@ function openTab(evt, cityName) {
 	</form>
 </div>
 
+
+
+
 <div class="tab">
-  <button class="tablinks" onclick="openTab(event, 'London')">London</button>
-  <button class="tablinks" onclick="openTab(event, 'Paris')">Paris</button>
-  <button class="tablinks" onclick="openTab(event, 'Tokyo')">Tokyo</button>
+  <button class="tablinks" onclick="openTab(event, 'ChoseFilesTab')">Choose Files</button>
+  <button class="tablinks" onclick="openTab(event, 'ChoseValuesTab')">Choose Data</button>
+  <button class="tablinks" onclick="openTab(event, 'ChartTab')">Chart</button>
 </div>
 
-<div id="London" class="tabcontent">
-<h3>yeah</h3>
+<div id="ChoseFilesTab" class="tabcontent">
+<div id="FilesColumn" class="row">
+	<form action="/result" method="post" modelAttribute="filess">
+	    <div class="col-sm-2"></div>
+	    <div class="col-sm-9" style="background-color:lavender;">    
+		    <div th:each="type : ${files}">
+		        <label>
+					<input th:type="checkbox" name="CheckFileName" th:value="${type}" th:text="${type.getName()}" id="CheckFileName"></input><br/>
+				</label>
+		    </div>
+		     <button type="submit" value="ViewData" class="btn btn-primary">View Data</button>
+	    </div>
+	</form>
 </div>
 
-<div id="Paris" class="tabcontent">
 </div>
 
-<div id="Tokyo" class="tabcontent">
+<div id="ChoseValuesTab" class="tabcontent">
+<form action="/charts" method="post">
+<div id="FilesColumn" class="row">
+    <div class="col-sm-2"></div>
+    <div class="col-sm-4" style="background-color:lavender;">
+    <div align="center">Choose X</div>
+    <div th:each="type : ${DataRow1}">
+	      <label >
+				 <input th:value="${type}" th:text="${type}" type="radio" name="DataRow1data" value="attribute"></input><br/>
+		  </label>
+	    </div>
+    </div>
+    <div class="col-sm-4" style="background-color:lavender;">
+    <div align="center">Choose Y</div>    
+	    <div th:each="type : ${DataRow2}">
+	      <label >
+				 <input th:value="${type}" th:text="${type}" type="radio" name="DataRow2data" value="attribute"></input><br/>
+		  </label>
+	    </div>
+    </div>
+    <div class="col-sm-5"></div><br/>
+  </div>
+  <div align="center">
+    <button type="submit" value="GenerateChart" class="btn btn-primary">Generate Chart</button>
+  </div>
+</form>
+</div>
+
+<div id="ChartTab" class="tabcontent">
+<div style="display: none" th:each="type : ${dataJsonX}">
+				<input th:type="list" name="XAsis" th:value="${type}" th:text="${type}" id="XAsis"></input><br/>
+</div>
+<div style="display: none" th:each="type : ${dataJsonY}">
+				<input th:type="list" name="YAsis" th:value="${type}" th:text="${type}" id="YAsis"></input><br/>
+</div>
+
+<input style="display: none" th:type="list" name="XHead" th:value="${XHeader}"  id="XHead"></input><br/>
+<input style="display: none" th:type="list" name="YHead" th:value="${YHeader}"  id="YHead"></input><br/>
+
+<div align="center">
+<button onclick="init()" class="btn btn-primary">Generate Chart</button>
+</div>
+<div id="chartContainer" style="height: 300px; width: 100%;"></div>
 </div>
 
 <div lang="en" th:replace="fragments/footer :: footer"></div>
