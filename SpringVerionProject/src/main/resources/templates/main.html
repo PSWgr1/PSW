@@ -1,12 +1,30 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-<link th:href="@{/css/main.css}" rel="stylesheet"/>
+<link th:href="@{/css/Secondary.css}" rel="stylesheet"/>
 <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.2.0/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}" rel="stylesheet" media="screen" />
 <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.1/jquery.min.js" th:src="@{/webjars/jquery/2.1.1/jquery.min.js}"></script>
 <script src="http://canvasjs.com/assets/script/canvasjs.min.js"></script>
 <head th:replace="fragments/header :: header"></head>
 <body>
+<script th:inline="javascript">
+//<![CDATA[
+function openTab(evt, cityName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(cityName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+/*]]>*/
+</script>
+
 
 <div id="Form" align="center" class="container" >
 	<form action="/" method="post">
@@ -16,6 +34,23 @@
 	  <input type="submit" value="Submit" class="btn btn-primary"></input>
 	</form>
 </div>
+
+<div class="tab">
+  <button class="tablinks" onclick="openTab(event, 'London')">London</button>
+  <button class="tablinks" onclick="openTab(event, 'Paris')">Paris</button>
+  <button class="tablinks" onclick="openTab(event, 'Tokyo')">Tokyo</button>
+</div>
+
+<div id="London" class="tabcontent">
+<h3>yeah</h3>
+</div>
+
+<div id="Paris" class="tabcontent">
+</div>
+
+<div id="Tokyo" class="tabcontent">
+</div>
+
 <div lang="en" th:replace="fragments/footer :: footer"></div>
 </body>
 </html>
