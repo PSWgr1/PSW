@@ -5,6 +5,8 @@
 <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.2.0/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}" rel="stylesheet" media="screen" />
 <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.1/jquery.min.js" th:src="@{/webjars/jquery/2.1.1/jquery.min.js}"></script>
 <script src="http://canvasjs.com/assets/script/canvasjs.min.js"></script>
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script th:src="@{/js/ajaxfunctions.js}" rel="stylesheet" type="text/javascript"></script>
 <head th:replace="fragments/header :: header"></head>
 <body>
 <script th:inline="javascript">
@@ -83,15 +85,15 @@ function init() {
 
 
 <div id="Form" align="center" class="container" >
-	<form action="/" method="post">
+	<form id="GetFilesForm" method="post">
 	<div class="form-group">
-	  File name: <input type="text" name="filename"></input><br/>
+	  File name: <input id="GetFilesFormInput" type="text" name="filename"></input><br/>
 	</div>
-	  <input type="submit" value="Submit" class="btn btn-primary"></input>
+	  <input id="GetFilesFormButton" type="submit" value="Submit" class="btn btn-primary"></input>
 	</form>
 </div>
 
-
+<ul id="filesList"></ul>
 
 
 <div class="tab">
