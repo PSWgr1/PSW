@@ -7,51 +7,63 @@
 <script src="http://canvasjs.com/assets/script/canvasjs.min.js"></script>
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 <script th:src="@{/js/ajaxfunctions.js}" rel="stylesheet" type="text/javascript"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"></link>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 <head th:replace="fragments/header :: header"></head>
 <body>
 <script th:inline="javascript">
 //<![CDATA[
 	
-	
-	
-function openTab(evt, cityName) {
-    var i, tabcontent, tablinks;
-    tabcontent = document.getElementsByClassName("tabcontent");
-    for (i = 0; i < tabcontent.length; i++) {
-        tabcontent[i].style.display = "none";
-    }
-    tablinks = document.getElementsByClassName("tablinks");
-    for (i = 0; i < tablinks.length; i++) {
-        tablinks[i].className = tablinks[i].className.replace(" active", "");
-    }
-    document.getElementById(cityName).style.display = "block";
-    evt.currentTarget.className += " active";
-}
-
 function init() {
-	var dataX = document.getElementById("XAsis").value;
-	var dataY = document.getElementById("YAsis").value;
-	var XHead = document.getElementById("XHead").value;
-	var yHead = document.getElementById("YHead").value;
-
-	var XinParts = dataX.split(',');
-	var YinParts = dataY.split(',');
-
-	if (XinParts.lenght != YinParts.lenght) {
-		alert("Wrong Datas!");
-		return false;
+	var files = document.getElementById("dLabel");
+	var XValues = document.getElementById("ValuesXplaceholder");
+	var yValues = document.getElementById("ValuesYplaceholder");
+	var filestable=[];
+	
+	var HEADERS=[];
+	var VALUES=[];
+	
+	
+	
+	for(var i=0;i<files.length;i++){
+		filestable.push(files.options[i].text);
+		for(var j =0;j<files.length;j++){
+			if(objectsMap[j].name == files.options[i].text){
+				HEADERS.push(objectsMap[j].HEADERS);
+				VALUES.push(objectsMap[j].VALUES);
+			}
+		}
+		
 	}
-	var datatable = new Array();
-	var l = XinParts.length;
+	var radioIDsX=[];
+	var radioIDsY=[];
+	for(var i=0; i<filestable.length;i++){
+		 radioIDsX.push("DataRowXdatafor"+filestable[i]);
+		 radioIDsY.push("DataRowYdatafor"+filestable[i]);
+	}
 	
-	XinParts[0] = XinParts[0].replace('[','');
-	YinParts[0] = YinParts[0].replace('[','');
-	XinParts[XinParts.length] = XinParts[XinParts.length-1].replace('[','');
-	XinParts[YinParts.length] = XinParts[YinParts.length-1].replace('[','');
+	var XradioValues=[];
+	var YradioValues=[];
+	
+	for(var i=0;i<filestable.length;i++){
+		if(document.querySelector('input[name="'+radioIDsX[i]+'"]:checked')!=null){
+			XradioValues.push(document.querySelector('input[name="'+radioIDsX[i]+'"]:checked').value);
+		}
+		if(document.querySelector('input[name="'+radioIDsY[i]+'"]:checked')!=null){
+			YradioValues.push(document.querySelector('input[name="'+radioIDsY[i]+'"]:checked').value);
+		}
+	}
+	
+	var XAsisValues = VALUES[HEADERS[0].indexOf(XradioValues[0])];
+	var YAsiValues =[];
+	for(var j=0; j<YradioValues.length; j++){
+		YAsiValues.push(VALUES[HEADERS[0].indexOf(YradioValues[j])]);
+	}
 	
 	
 	
-	for(var i=0; i<l; i++) {
+	var datatable = [];
+	for(var i=0; i<YradioValues.length; i++) {
 		datatable.push({x: parseFloat(XinParts[i]), y: parseFloat(YinParts[i])});
     }
 	
@@ -83,80 +95,54 @@ function init() {
 /*]]>*/
 </script>
 
-
 <div id="Form" align="center" class="container" >
-	<form id="GetFilesForm" method="post">
-	<div class="form-group">
-	  File name: <input id="GetFilesFormInput" type="text" name="filename"></input><br/>
-	</div>
-	  <input id="GetFilesFormButton" type="submit" value="Submit" class="btn btn-primary"></input>
+	<form id="GetFilesForm" method="post" class="form-search">
+	<div class="input-group">
+	  <input id="GetFilesFormInput" type="text" name="filename" class="input-medium search-query form-control" placeholder="File name pattern"></input><span class="input-group-btn">
+	  <button id="GetFilesFormButton" type="submit" class="btn btn-default"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Search</button> </span>
+	  </div>
 	</form>
 </div>
 
-<ul id="filesList"></ul>
+<div>
+	<form id="CommitFiles" method="post">
+	<div class="row">
+	 <div class="col-sm-1"></div>
+	 
+	    <div id="DropdownMenu" class="col-sm-1">
+			<div class="dropdown">
+				<select id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+				</select>
+			</div>
+		</div>
+		<div class="col-sm-1"></div>
+	    <div id="ValuesXplaceholder" class="col-sm-3" style="background-color:lavender;">    
+		    
 
-
-<div class="tab">
-  <button class="tablinks" onclick="openTab(event, 'ChoseFilesTab')">Choose Files</button>
-  <button class="tablinks" onclick="openTab(event, 'ChoseValuesTab')">Choose Data</button>
-  <button class="tablinks" onclick="openTab(event, 'ChartTab')">Chart</button>
-</div>
-
-<div id="ChoseFilesTab" class="tabcontent">
-<div id="FilesColumn" class="row">
-	<form action="/result" method="post" modelAttribute="filess">
-	    <div class="col-sm-2"></div>
-	    <div class="col-sm-9" style="background-color:lavender;">    
-		    <div th:each="type : ${files}">
-		        <label>
-					<input th:type="checkbox" name="CheckFileName" th:value="${type}" th:text="${type.getName()}" id="CheckFileName"></input><br/>
-				</label>
-		    </div>
-		     <button type="submit" value="ViewData" class="btn btn-primary">View Data</button>
 	    </div>
+	    <div class="col-sm-1"></div>
+	    <div id="ValuesYplaceholder" class="col-sm-3" style="background-color:lavender;">    
+		    
+
+	    </div>
+	    </div>
+	    <div align="center">
+		     <button onclick="init();" style="text-align: center;" type="submit" value="GenerateChart" class="btn btn-primary">Generate Chart</button>
+		</div>
 	</form>
-</div>
-
-</div>
-
-<div id="ChoseValuesTab" class="tabcontent">
-<form action="/charts" method="post">
-<div id="FilesColumn" class="row">
-    <div class="col-sm-2"></div>
-    <div class="col-sm-4" style="background-color:lavender;">
-    <div align="center">Choose X</div>
-    <div th:each="type : ${DataRow1}">
-	      <label >
-				 <input th:value="${type}" th:text="${type}" type="radio" name="DataRow1data" value="attribute"></input><br/>
-		  </label>
-	    </div>
-    </div>
-    <div class="col-sm-4" style="background-color:lavender;">
-    <div align="center">Choose Y</div>    
-	    <div th:each="type : ${DataRow2}">
-	      <label >
-				 <input th:value="${type}" th:text="${type}" type="radio" name="DataRow2data" value="attribute"></input><br/>
-		  </label>
-	    </div>
-    </div>
-    <div class="col-sm-5"></div><br/>
-  </div>
-  <div align="center">
-    <button type="submit" value="GenerateChart" class="btn btn-primary">Generate Chart</button>
-  </div>
-</form>
 </div>
 
 <div id="ChartTab" class="tabcontent">
-<div style="display: none" th:each="type : ${dataJsonX}">
-				<input th:type="list" name="XAsis" th:value="${type}" th:text="${type}" id="XAsis"></input><br/>
+<div style="display: none">
+				<select id="XAsisSelection">
+					
+				</select>
 </div>
-<div style="display: none" th:each="type : ${dataJsonY}">
-				<input th:type="list" name="YAsis" th:value="${type}" th:text="${type}" id="YAsis"></input><br/>
+<div style="display: none">
+				<select id="YAsisSelection">
+					
+				</select>
 </div>
-
-<input style="display: none" th:type="list" name="XHead" th:value="${XHeader}"  id="XHead"></input><br/>
-<input style="display: none" th:type="list" name="YHead" th:value="${YHeader}"  id="YHead"></input><br/>
 
 <div align="center">
 <button onclick="init()" class="btn btn-primary">Generate Chart</button>
@@ -164,6 +150,6 @@ function init() {
 <div id="chartContainer" style="height: 300px; width: 100%;"></div>
 </div>
 
-<div lang="en" th:replace="fragments/footer :: footer"></div>
 </body>
+<div lang="en" th:replace="fragments/footer :: footer"></div>
 </html>

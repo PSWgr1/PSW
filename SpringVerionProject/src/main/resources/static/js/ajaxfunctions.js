@@ -1,6 +1,9 @@
+var objectsMap = [];
 $( document ).ready(function() {
      
     var url = window.location;
+    
+   window.mapOfValues;
      
     // SUBMIT FORM
     $("#GetFilesForm").submit(function(event) {
@@ -28,10 +31,27 @@ $( document ).ready(function() {
             success: function (data) {
                 $(data.data).each(
                 function(key,value) {
-                	var names = value.split("\\");
-                	var li = $('<li><input type="checkbox" name="' + names[names.length-1] + '" id="checkedFiles"/>' + '<label for="' + names[names.length-1] + '"></label></li>');
-                	li.find('label').text(names[names.length-1]);
-                $('#filesList').append(li);
+                	objectsMap.push(value);
+                	var li = $('<option value="'+value.name+'">'+value.name+'</option>');
+                	var beginDivX = $('<div id="'+value.name+'X">');
+                	var beginDivY = $('<div id="'+value.name+'Y">');
+                	if(key != 0){
+                		beginDivX = $('<div id="'+value.name+'X">').hide();
+                		beginDivY = $('<div id="'+value.name+'Y">').hide();
+                		}
+                	
+                	$(value.HEADERS).each(function(k,v){
+                		var XAsis = $('<input type="radio" name="DataRowXdatafor'+value.name+'" value="'+v+'">'+v+'</input><br/>');
+                		var YAsis = $('<input type="radio" name="DataRowYdatafor'+value.name+'" value="'+v+'">'+v+'</input><br/>');
+                		$(beginDivX).append(XAsis);
+                		$(beginDivY).append(YAsis);
+                	});
+                	$(beginDivX).append('</div>');
+                	$(beginDivX).append('</div>');
+                	
+                	$('#ValuesXplaceholder').append(beginDivX);
+                	$('#ValuesYplaceholder').append(beginDivY);
+                	$('#dLabel').append(li);
                        });
             },
             error : function(e) {

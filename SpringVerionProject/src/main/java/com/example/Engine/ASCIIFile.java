@@ -18,10 +18,11 @@ public class ASCIIFile {
 	public List<String> HEADERS = new ArrayList<>();
 	public List<String> UNITS = new ArrayList<>();
 	public Map<Integer, List<Double>> VALUES = new LinkedHashMap<>();
+	public String name;
 
 	public static ASCIIFile readASCIIFile(File file) throws IOException {
 		ASCIIFile asciiFile = new ASCIIFile();
-
+		asciiFile.name = file.getName();
 		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
 			StringBuilder sb = new StringBuilder();
 			String line = br.readLine();

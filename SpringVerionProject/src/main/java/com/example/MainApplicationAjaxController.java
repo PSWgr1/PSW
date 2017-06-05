@@ -7,18 +7,25 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.json.JSONArray;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.Engine.ASCIIFile;
 import com.example.Engine.PropertiesReader;
 import com.example.Engine.RepositoryChecker;
 
 
 @RestController	
 public class MainApplicationAjaxController {
+	
+	List<ASCIIFile> asciiList;
 	
 	@RequestMapping(value = "/getResult", method = RequestMethod.POST)
     public Response postCustomer(@RequestBody String file) {
@@ -31,9 +38,23 @@ public class MainApplicationAjaxController {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-        Response response = new Response("Done", FileOut);
+		
+		asciiList = new ArrayList<>();
+		if(FileOut.size() >0){
+			try {
+				for (File asciiFile : FileOut) {
+					asciiList.add(ASCIIFile.readASCIIFile(asciiFile));
+				}
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		}
+		
+        Response response = new Response("Done", asciiList);
         return response;
     }
+
+	
 	
 	
 	public String getProperString(String param){
