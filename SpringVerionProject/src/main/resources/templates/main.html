@@ -27,14 +27,8 @@ function init() {
 	
 	for(var i=0;i<files.length;i++){
 		filestable.push(files.options[i].text);
-		for(var j =0;j<files.length;j++){
-			if(objectsMap[j].name == files.options[i].text){
-				HEADERS.push(objectsMap[j].HEADERS);
-				VALUES.push(objectsMap[j].VALUES);
-			}
-		}
-		
 	}
+	
 	var radioIDsX=[];
 	var radioIDsY=[];
 	for(var i=0; i<filestable.length;i++){
@@ -44,48 +38,59 @@ function init() {
 	
 	var XradioValues=[];
 	var YradioValues=[];
+	var indexesOfX=[];
+	var indexesOfY=[];
+	
 	
 	for(var i=0;i<filestable.length;i++){
 		if(document.querySelector('input[name="'+radioIDsX[i]+'"]:checked')!=null){
-			XradioValues.push(document.querySelector('input[name="'+radioIDsX[i]+'"]:checked').value);
+			XradioValues.push( document.querySelector('input[name="'+radioIDsX[i]+'"]:checked').value);
+			indexesOfX.push(i);
 		}
 		if(document.querySelector('input[name="'+radioIDsY[i]+'"]:checked')!=null){
 			YradioValues.push(document.querySelector('input[name="'+radioIDsY[i]+'"]:checked').value);
+			indexesOfY.push(i);
 		}
 	}
 	
-	var XAsisValues = VALUES[HEADERS[0].indexOf(XradioValues[0])];
-	var YAsiValues =[];
-	for(var j=0; j<YradioValues.length; j++){
-		YAsiValues.push(VALUES[HEADERS[0].indexOf(YradioValues[j])]);
+	var VALUES_Y=[];
+	var indHead= objectsMap[indexesOfX[0]].HEADERS.indexOf(XradioValues[0]);
+	var VALUES_X = objectsMap[indexesOfX[0]].VALUES[indHead+1];
+	
+	for(var i=0;i<indexesOfY.length;i++){
+		var indHead= objectsMap[indexesOfY[i]].HEADERS.indexOf(YradioValues[i]);
+		VALUES_Y.push(objectsMap[indexesOfY[i]].VALUES[indHead+1]);
 	}
 	
-	
-	
 	var datatable = [];
-	for(var i=0; i<YradioValues.length; i++) {
-		datatable.push({x: parseFloat(XinParts[i]), y: parseFloat(YinParts[i])});
+	var finalResults=[];
+	for(var i=0; i<VALUES_Y.length; i++) {
+		var value = VALUES_Y[i];
+			for(var j=0;j<value.length;j++){
+				datatable.push({x: VALUES_X[j], y: value[j]});
+			}
+			finalResults.push(datatable);
+			datatable = [];
     }
-	
+	var dps = [{x: 1, y: 10}, {x: 2, y: 10}, {x: 3, y: 10}, {x: 4, y: 10}, {x: 5, y: 10}]; 
 	var chart = new CanvasJS.Chart("chartContainer",{
 		zoomEnabled: true,
 	    zoomType: "xy",
 	    animationEnabled: true,
-	    animationDuration: 4000,
+	    animationDuration: 2000,
 	    exportEnabled: true,
-	    interactivityEnabled: true,
 		title :{
 			text: "Chart Generated"
 		},
 		axisX: {						
-			title: XHead
+			title: XradioValues[0]
 		},
 		axisY: {						
-			title: yHead
+			title: YradioValues[0]
 		},
 		data: [{
 			type: "line",
-			dataPoints : datatable
+			dataPoints : finalResults[0]
 		}]
 	});
 	 
@@ -126,13 +131,10 @@ function init() {
 
 	    </div>
 	    </div>
-	    <div align="center">
-		     <button onclick="init();" style="text-align: center;" type="submit" value="GenerateChart" class="btn btn-primary">Generate Chart</button>
-		</div>
+
 	</form>
 </div>
 
-<div id="ChartTab" class="tabcontent">
 <div style="display: none">
 				<select id="XAsisSelection">
 					
@@ -145,9 +147,9 @@ function init() {
 </div>
 
 <div align="center">
-<button onclick="init()" class="btn btn-primary">Generate Chart</button>
+	<button onclick="init();" style="text-align: center;" type="button" value="GenerateChart" class="btn btn-primary">Generate Chart</button>
 </div>
-<div id="chartContainer" style="height: 300px; width: 100%;"></div>
+<div id="chartContainer" style="height: 300px; width: 100%;">
 </div>
 
 </body>
