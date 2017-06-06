@@ -33,21 +33,24 @@ $( document ).ready(function() {
                 function(key,value) {
                 	objectsMap.push(value);
                 	var li = $('<option value="'+value.name+'">'+value.name+'</option>');
-                	var beginDivX = $('<div id="'+value.name+'X">');
-                	var beginDivY = $('<div id="'+value.name+'Y">');
+                	var beginDivX = $('<div id="'+value.name+'X" class="container">');
+                	var beginDivY = $('<div id="'+value.name+'Y" class="container">');
                 	if(key != 0){
-                		beginDivX = $('<div id="'+value.name+'X">').hide();
-                		beginDivY = $('<div id="'+value.name+'Y">').hide();
+                		beginDivX = $('<div id="'+value.name+'X" class="container">').hide();
+                		beginDivY = $('<div id="'+value.name+'Y" class="container">').hide();
                 		}
                 	
+                	var ulDocX=$('<ul>');
+                	var ulDocY=$('<ul>');
+                	
                 	$(value.HEADERS).each(function(k,v){
-                		var XAsis = $('<input type="radio" name="DataRowXdatafor'+value.name+'" value="'+v+'">'+v+'</input><br/>');
-                		var YAsis = $('<input type="radio" name="DataRowYdatafor'+value.name+'" value="'+v+'">'+v+'</input><br/>');
-                		$(beginDivX).append(XAsis);
-                		$(beginDivY).append(YAsis);
+                		var XAsis = $('<li><input type="radio" id="DataRowXdatafor'+value.name+v+'" name="DataRowXdatafor'+value.name+'" value="'+v+'"></input><label for="DataRowXdatafor'+value.name+v+'">'+v+'</label><div class="check"><div class="inside"></div></div></li>');
+                		var YAsis = $('<li><input type="radio" id="DataRowYdatafor'+value.name+v+'" name="DataRowYdatafor'+value.name+'" value="'+v+'"></input><label for="DataRowYdatafor'+value.name+v+'">'+v+'</label><div class="check"><div class="inside"></div></div></li>');
+                		$(ulDocX).append(XAsis);
+                		$(ulDocY).append(YAsis);
                 	});
-                	$(beginDivX).append('</div>');
-                	$(beginDivX).append('</div>');
+                	$(beginDivX).append(ulDocX);
+                	$(beginDivY).append(ulDocY);
                 	
                 	$('#ValuesXplaceholder').append(beginDivX);
                 	$('#ValuesYplaceholder').append(beginDivY);

@@ -91,7 +91,7 @@ public class MainApplicationController {
 		try {
 			List<Double> listX = asciiList.get(0).VALUES.get(indexOfXValue);
 			List<Double> listY = asciiList.get(0).VALUES.get(indexOfYValue);
-			File fileXAsis = new File(System.getProperty("user.dir")+"/src/main/resources/static/Files/XAsis.json");
+			File fileXAsis = new File(System.getProperty("user.dir")+"/ConfigurationFiles/YAsis.json");
 			objectMapper.writeValue(fileXAsis, listX);
 			objectMapper.writeValue(new File(System.getProperty("user.dir")+"/ConfigurationFiles/YAsis.json"), listY);
 //			response.getOutputStream().write(IOUtils.toByteArray(new FileInputStream(fileXAsis)));

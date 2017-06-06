@@ -2,6 +2,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
 <link th:href="@{/css/Secondary.css}" rel="stylesheet"/>
+<link th:href="@{/css/Third.css}" rel="stylesheet"/>
 <link href="http://cdn.jsdelivr.net/webjars/bootstrap/3.2.0/css/bootstrap.min.css" th:href="@{/webjars/bootstrap/3.2.0/css/bootstrap.min.css}" rel="stylesheet" media="screen" />
 <script src="http://cdn.jsdelivr.net/webjars/jquery/2.1.1/jquery.min.js" th:src="@{/webjars/jquery/2.1.1/jquery.min.js}"></script>
 <script src="http://canvasjs.com/assets/script/canvasjs.min.js"></script>
@@ -123,47 +124,22 @@ function changeInputXY(){
 	</form>
 </div>
 
-<ul>
-  <li>
-    <input type="radio" id="f-option" name="selector"></input>
-    <label for="f-option">Pizza</label>
-    
-    <div class="check"></div>
-  </li>
-  
-  <li>
-    <input type="radio" id="s-option" name="selector"></input>
-    <label for="s-option">Bacon</label>
-    
-    <div class="check"><div class="inside"></div></div>
-  </li>
-  
-  <li>
-    <input type="radio" id="t-option" name="selector"></input>
-    <label for="t-option">Cats</label>
-    
-    <div class="check"><div class="inside"></div></div>
-  </li>
-</ul>
 
 <div>
 	<form id="CommitFiles" method="post">
 	<div class="row">
-	 <div class="col-sm-1"></div>
 	 
-	    <div id="DropdownMenu" class="col-sm-1">
-			<div class="dropdown">
+	    <div align="center" id="DropdownMenu" class="row">
 				<select id="dLabel" type="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
 				</select>
-			</div>
 		</div>
-		<div class="col-sm-1"></div>
-	    <div id="ValuesXplaceholder" class="col-sm-3" style="background-color:lavender;">    
+		<div class="col-sm-2"></div>
+	    <div id="ValuesXplaceholder" class="col-sm-3">    
 		    
 
 	    </div>
 	    <div class="col-sm-1"></div>
-	    <div id="ValuesYplaceholder" class="col-sm-3" style="background-color:lavender;">    
+	    <div id="ValuesYplaceholder" class="col-sm-3">    
 		    
 
 	    </div>
@@ -184,7 +160,7 @@ function changeInputXY(){
 </div>
 
 <div align="center">
-	<button onclick="init();" style="text-align: center;" type="button" value="GenerateChart" class="btn btn-primary">Generate Chart</button>
+	<button onclick="init();" id="ChartButtonId" style="text-align: center;" type="button" value="GenerateChart" class="btn btn-primary">Generate Chart</button>
 </div>
 <div id="chartContainer" style="height: 300px; width: 100%;">
 </div>
