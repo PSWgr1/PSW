@@ -13,7 +13,6 @@
 <body>
 <script th:inline="javascript">
 //<![CDATA[
-	
 function init() {
 	var files = document.getElementById("dLabel");
 	var XValues = document.getElementById("ValuesXplaceholder");
@@ -72,7 +71,7 @@ function init() {
 			finalResults.push(datatable);
 			datatable = [];
     }
-	var dps = [{x: 1, y: 10}, {x: 2, y: 10}, {x: 3, y: 10}, {x: 4, y: 10}, {x: 5, y: 10}]; 
+	var dps = []; 
 	var chart = new CanvasJS.Chart("chartContainer",{
 		zoomEnabled: true,
 	    zoomType: "xy",
@@ -85,18 +84,33 @@ function init() {
 		axisX: {						
 			title: XradioValues[0]
 		},
+		legend:{
+	        fontSize: 15
+	    },
 		axisY: {						
-			title: YradioValues[0]
 		},
-		data: [{
-			type: "line",
-			dataPoints : finalResults[0]
-		}]
+		data: []
 	});
-	 
+	for(var z=0;z<finalResults.length;z++){
+		chart.options.data.push({type: "line",showInLegend: true, legendText: YradioValues[z],dataPoints: finalResults[z]}); 
+	}
 	chart.render();
 	
 }
+
+
+function changeInputXY(){
+	var files = document.getElementById("dLabel");
+	var strFile = files.options[files.selectedIndex].text;
+	
+	var currentToShow = strFile+"Y";
+	for(var i=0;i<files.length;i++){
+		document.getElementById(files.options[i].text+"Y").style.display = 'none';
+		if((files.options[i].text+"Y")===(currentToShow)){
+			document.getElementById(files.options[i].text+"Y").style.display = 'block';
+		}
+	}
+	}
 /*]]>*/
 </script>
 
@@ -108,6 +122,29 @@ function init() {
 	  </div>
 	</form>
 </div>
+
+<ul>
+  <li>
+    <input type="radio" id="f-option" name="selector"></input>
+    <label for="f-option">Pizza</label>
+    
+    <div class="check"></div>
+  </li>
+  
+  <li>
+    <input type="radio" id="s-option" name="selector"></input>
+    <label for="s-option">Bacon</label>
+    
+    <div class="check"><div class="inside"></div></div>
+  </li>
+  
+  <li>
+    <input type="radio" id="t-option" name="selector"></input>
+    <label for="t-option">Cats</label>
+    
+    <div class="check"><div class="inside"></div></div>
+  </li>
+</ul>
 
 <div>
 	<form id="CommitFiles" method="post">
@@ -154,4 +191,11 @@ function init() {
 
 </body>
 <div lang="en" th:replace="fragments/footer :: footer"></div>
+
+<script th:inline="javascript">
+//<![CDATA[
+document.getElementById("dLabel").addEventListener("change", changeInputXY);
+/*]]>*/
+</script>
+
 </html>

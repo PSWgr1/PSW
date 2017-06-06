@@ -1,4 +1,11 @@
 /* Style the tab */
+@import url('https://fonts.googleapis.com/css?family=Lato');
+
+ul li input[type=radio]{
+  position: absolute;
+  visibility: hidden;
+}
+
 div.tab {
     overflow: hidden;
     border: 1px solid #ccc;
