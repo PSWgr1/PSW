@@ -1,0 +1,69 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<iframe style="display:none" id="download"></iframe>
+<div class="row" ng-app="phonecatApp">
+    <div ng-controller="PhoneListController">
+        <div class="col-md-4">
+            <input id="fileItem" type="file">
+            <button type="button" ng-click="Download()">Download File</button>
+
+            <table>
+                <tr><td>Name:</td><td>{{CurrentFile.Name}}</td></tr>
+                <tr><td>Owner:</td><td>{{CurrentFile.Owner}}</td></tr>
+                <tr><td>Accessibility:</td><td>{{CurrentFile.Accessibility}}</td></tr>
+                <tr><td>Description:</td><td>{{CurrentFile.Description}}</td></tr>
+            </table>
+        </div>
+        <div class="col-md-8">
+            <button type="button" ng-click="ViewType = 'graph'">View</button>
+            <button type="button" ng-click="ViewType = 'text'">Edit</button>
+            <button type="button" ng-click="ViewType = 'content'">Browse</button>
+            <button type="button" ng-show="ViewType == 'graph'" style="float:right" ng-click="ChangeColormap()">Change Colormap</button>
+            <button type="button" ng-show="ViewType == 'graph'" style="float:right" ng-click="Rotation = !Rotation">Rotation</button>
+            <button type="button" ng-show="ViewType == 'text'" style="float:right" ng-click="AddCurrentFile()">Save changes</button>
+            <button type="button" ng-show="ViewType == 'text'" style="float:right" ng-click="CopyCurrentFile()">Save as new</button>
+
+            <div ng-show="ViewType == 'graph'">
+                <div id="displayWindow"> </div>
+            </div>
+            <div ng-show="ViewType == 'text'" style="width:100%">
+                <input type="text" ng-model="CurrentFile.Name"/>
+                <select ng-model="CurrentFile.Accessibility">
+                    <option selected value="Private">Private</option>
+                    <option value="Public">Public</option>
+                </select>
+                <textarea rows="2" placeholder="Type description" ng-model="CurrentFile.Description" style="width:100%;max-width:1000px"></textarea>
+                <textarea rows="15" ng-model="CurrentFile.Text" style="width:100%;max-width:1000px"></textarea>
+            </div>
+            <div ng-show="ViewType == 'content'">
+                <table ng-table="tableParams" show-filter="true" class="table table-condensed table-bordered table-striped">
+                    <tr ng-repeat="file in $data">
+                        <td title="'Name'" filter="{Name: 'text'}" sortable="'Name'"><span ng-click="LoadFile(file.Id)">{{file.Name}}</span></td>
+                        <td title="'Accessibility'" filter="{Accessibility: 'text'}" sortable="'Accessibility'"><span ng-click="LoadFile(file.Id)">{{file.Accessibility}}</span></td>
+                        <td title="'Description'" filter="{Description: 'text'}" sortable="'Description'"><span ng-click="LoadFile(file.Id)">{{file.Description}}</span></td>
+                        <td title="'Owner'" filter="{Owner: 'text'}" sortable="'Owner'"><span ng-click="LoadFile(file.Id)">{{file.Owner}}</span></td>
+                    </tr>
+
+                </table>
+            </div>
+
+
+
+
+        </div>
+    </div>
+
+</div>
+<script src="/scripts/three.js"></script>
+<script src="/scripts/math/Lut.js"></script>
+<script src="/scripts/Detector.js"></script>
+<script src="/scripts/libs/stats.min.js"></script>
+<script src="/scripts/fileFuncs.js"></script>
+<script src="/scripts/jquery-1.10.2.min.js"></script>
+<script src="/scripts/angular.js"></script>
+<script src="/scripts/Angular/app.js"></script>
+<script src="~/scripts/ng-table.js"></script>
+
+<script src="/scripts/controls/OrbitControls.js"></script>
