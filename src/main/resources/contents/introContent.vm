@@ -1,0 +1,19 @@
+<div class="row">
+    <div class="col-lg-10">
+        <h1>Best Project Manager</h1>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-5">
+        Feature rich project management platform that lends itself to multiple applications, most notably the
+        project management ecosystem. Features such as tasks, task lists, time tracking, file uploads, and messages
+        make it the perfect tool to streamline day to day jobs.
+    </div>
+    <div class="col-md-7">
+        <img class="img-responsive" src="img/register.jpg" alt="Smiling people.">
+    </div>
+</div>
+
+#parse("modals/registrationModal.vm")
+#parse("modals/loginModal.vm")

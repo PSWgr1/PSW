@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    #parse("templates/header.vm")
+</head>
+
+<body>
+    #parse("templates/navigation.vm")
+<div class="container">
+    #parse("contents/alertsContent.vm")
+    #parse($PAGE_CONTENT)
+</div>
+
+<script src="/js/jquery.js"></script>
+<script src="/js/bootstrap.min.js"></script>
+
+</body>
+
+</html>

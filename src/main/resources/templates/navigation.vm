@@ -1,0 +1,33 @@
+<nav class="navbar navbar-inverse navbar-static-top">
+    <div class="container">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">$title</a>
+        </div>
+        #if($isAuthenticated == true)
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/projects">Projects</a></li>
+            </ul>
+        #end
+
+        <ul class="nav navbar-nav navbar-right">
+            #if($isAuthenticated == true)
+                <li>
+                    <a href="/logout">
+                        <span class="glyphicon glyphicon-log-out"></span> Logout
+                    </a>
+                </li>
+            #else
+                <li>
+                    <a data-toggle="modal" href="#loginModal">
+                        <span class="glyphicon glyphicon-log-in"></span> Login
+                    </a>
+                </li>
+                <li>
+                    <a data-toggle="modal" href="#registrationModal">
+                        <span class="glyphicon glyphicon-user"></span> Register
+                    </a>
+                </li>
+            #end
+        </ul>
+    </div>
+</nav>

@@ -1,0 +1,17 @@
+<div class="row">
+
+    #foreach($message in $errorMessages)
+        <div class="alert alert-danger alert-dismissable">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+            <strong>Error!</strong> $message
+        </div>
+    #end
+
+    #foreach($message in $successMessages)
+        <div class="alert alert-success alert-dismissable">
+            <a href="#" class="close" data-dismiss="alert" aria-label="close">×</a>
+            <strong>Error!</strong> $message
+        </div>
+    #end
+
+</div>

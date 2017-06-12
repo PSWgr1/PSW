@@ -1,0 +1,87 @@
+<!-- Page Heading -->
+<div class="row">
+    <div class="col-lg-10">
+        #if($projects.isEmpty())
+            <h1>You don't participate in any project.</h1>
+        #else
+            <h1>Your projects</h1>
+        #end
+    </div>
+
+    <div class="col-lg-2">
+        <h1>
+            <button type="button" data-toggle="modal" data-target="#createProjectModal"
+                    class="btn btn-primary pull-right">Add new project
+            </button>
+        </h1>
+    </div>
+</div>
+<!-- /.row -->
+
+
+<!-- Projects Row -->
+
+#if($projects.isEmpty() == false)
+    #foreach($project in $projects)
+
+        #if($foreach.index % 4 == 0)
+            #if($foreach.index != 0)
+            </div>
+            #end
+            #if($foreach.index != $project.size() - 1)
+            <div class="row">
+            #end
+        #end
+        <div class="col-lg-3">
+            <div class="panel panel-primary" style="padding: 0; margin: 3px;">
+                <div class="panel-heading">
+                    $project.name
+                    <form class="pull-right" action="/projectRemoval" method="post">
+                        <input type="hidden" id="name" name="name" value="$project.name">
+                        <button style="padding: 0" type="submit" class="btn btn-danger">Remove</button>
+                    </form>
+                </div>
+                <div class="panel-body">
+                    <a href="/projects/$project.name">
+                        <img style="padding: 0" class="img-responsive" src="http://placehold.it/750x450" alt="">
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    #end
+#end
+
+#*<hr>
+
+<!-- Pagination -->
+<div class="row text-center">
+    <div class="col-lg-12">
+        <ul class="pagination">
+            <li>
+                <a href="#">&laquo;</a>
+            </li>
+            <li class="active">
+                <a href="#">1</a>
+            </li>
+            <li>
+                <a href="#">2</a>
+            </li>
+            <li>
+                <a href="#">3</a>
+            </li>
+            <li>
+                <a href="#">4</a>
+            </li>
+            <li>
+                <a href="#">5</a>
+            </li>
+            <li>
+                <a href="#">&raquo;</a>
+            </li>
+        </ul>
+    </div>
+</div>
+<!-- /.row -->*#
+
+#parse("modals/projectCreationModal.vm")
