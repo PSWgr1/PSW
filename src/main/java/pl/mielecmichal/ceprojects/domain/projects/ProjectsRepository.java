@@ -25,17 +25,17 @@ public class ProjectsRepository {
 
     public List<Project> findByUser(User user) {
         List<Project> owner = projects.values().stream()
-                .filter(p -> p.getMemberships().stream().anyMatch(m -> m.getUser().getLogin().equals(user.getLogin())))
+                .filter(p -> p.getMemberships().stream().anyMatch(m -> m.getUserLogin().equals(user.getLogin())))
                 .filter(p -> p.getMemberships().stream().anyMatch(m -> m.getProjectRole() == ProjectRole.OWNER))
                 .collect(Collectors.toList());
 
         List<Project> member = projects.values().stream()
-                .filter(p -> p.getMemberships().stream().anyMatch(m -> m.getUser().getLogin().equals(user.getLogin())))
+                .filter(p -> p.getMemberships().stream().anyMatch(m -> m.getUserLogin().equals(user.getLogin())))
                 .filter(p -> p.getMemberships().stream().anyMatch(m -> m.getProjectRole() == ProjectRole.MEMBER))
                 .collect(Collectors.toList());
 
         List<Project> guest = projects.values().stream()
-                .filter(p -> p.getMemberships().stream().anyMatch(m -> m.getUser().getLogin().equals(user.getLogin())))
+                .filter(p -> p.getMemberships().stream().anyMatch(m -> m.getUserLogin().equals(user.getLogin())))
                 .filter(p -> p.getMemberships().stream().anyMatch(m -> m.getProjectRole() == ProjectRole.GUEST))
                 .collect(Collectors.toList());
 

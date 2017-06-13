@@ -9,6 +9,7 @@ import pl.mielecmichal.ceprojects.domain.users.User;
 @Builder
 @Getter
 public class ProjectMembership {
-    private final User user;
+    private final String userLogin;
     private final ProjectRole projectRole;
+    private final String projectName;
 }

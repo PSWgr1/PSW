@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Value;
 import pl.mielecmichal.ceprojects.domain.users.User;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Value
@@ -15,13 +16,25 @@ public class Project {
 
     public boolean isMember(User user) {
         return memberships.stream()
-                .anyMatch(m -> m.getUser().getLogin().equals(user.getLogin()));
+                .anyMatch(m -> m.getUserLogin().equals(user.getLogin()));
     }
 
     public boolean hasRole(User user, ProjectRole projectRole) {
         return memberships.stream()
-                .filter(m -> m.getUser().getLogin().equals(user.getLogin()))
+                .filter(m -> m.getUserLogin().equals(user.getLogin()))
                 .anyMatch(m -> m.getProjectRole() == projectRole);
+    }
+
+    public Project addMembership(ProjectMembership membership) {
+
+        List<ProjectMembership> newMemberships = new ArrayList<>();
+        newMemberships.addAll(memberships);
+        newMemberships.add(membership);
+
+        return Project.builder()
+                .name(name)
+                .memberships(newMemberships)
+                .build();
     }
 
 }

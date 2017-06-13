@@ -27,6 +27,11 @@ public class ProjectDetailsHandler extends VelocityHandler {
         String name = request.params("projectName");
         Project project = projectsRepository.find(name);
         model.put("project", project);
+        List<User> memberships = project.getMemberships()
+                .stream()
+                .map(m -> usersRepository.find(m.getUserLogin()))
+                .collect(Collectors.toList());
+        model.put("memberships", memberships);
         CurrentUserRepository currentUserRepository = new CurrentUserRepository(request.session());
         User currentUser = currentUserRepository.getCurrentUser();
         model.put("isUserOwner", project.hasRole(currentUser, ProjectRole.OWNER));

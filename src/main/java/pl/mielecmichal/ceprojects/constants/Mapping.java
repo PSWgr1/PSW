@@ -12,6 +12,7 @@ public enum Mapping {
     PROJECT_DETAILS("/projects/:projectName"),
     PROJECT_CREATION("/projectCreation"),
     PROJECT_REMOVAL("/projectRemoval"),
+    PROJECT_MEMBERSHIP_CREATION("/projectMembershipCreation"),
     REGISTRATION("/registration"),
     LOGIN("/login"),
     LOGOUT("/logout");

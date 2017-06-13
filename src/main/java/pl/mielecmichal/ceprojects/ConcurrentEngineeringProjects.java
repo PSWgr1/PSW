@@ -26,6 +26,7 @@ public class ConcurrentEngineeringProjects {
         ProjectCreationHandler projectCreationHandler = new ProjectCreationHandler(projectsRepository);
         ProjectRemovalHandler projectRemovalHandler = new ProjectRemovalHandler(projectsRepository);
         ProjectDetailsHandler projectDetailsHandler = new ProjectDetailsHandler(usersRepository, projectsRepository);
+        ProjectMembershipCreationHandler projectMembershipCreationHandler = new ProjectMembershipCreationHandler(projectsRepository, projectDetailsHandler);
 
         Spark.staticFileLocation("/static");
 
@@ -44,6 +45,7 @@ public class ConcurrentEngineeringProjects {
         Spark.get(Mapping.PROJECT_DETAILS.getPath(), projectDetailsHandler);
         Spark.post(Mapping.PROJECT_CREATION.getPath(), projectCreationHandler);
         Spark.post(Mapping.PROJECT_REMOVAL.getPath(), projectRemovalHandler);
+        Spark.post(Mapping.PROJECT_MEMBERSHIP_CREATION.getPath(), projectMembershipCreationHandler);
     }
 
     private ConcurrentEngineeringProjects() {

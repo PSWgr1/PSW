@@ -21,16 +21,17 @@
                 <tbody>
                     #foreach($membership in $project.memberships)
                     <tr>
-                        <td>$membership.user.name</td>
-                        <td>$membership.user.surname</td>
+
+                        <td>$memberships.get($foreach.index).name</td>
+                        <td>$memberships.get($foreach.index).surname</td>
                         <td>$membership.projectRole</td>
-                        <td>$membership.user.email</td>
-                        <td>$membership.user.login</td>
+                        <td>$memberships.get($foreach.index).email</td>
+                        <td>$memberships.get($foreach.index).login</td>
                         <td>
                             #if($isUserOwner)
                                 <form action="/projectMembershipRemoval" method="post">
                                     <input type="hidden" id="projectName" name="projectName" value="$project.name">
-                                    <input type="hidden" id="userName" name="userName" value="$membership.user.name">
+                                    <input type="hidden" id="userName" name="userName" value="$memberships.get($foreach.index).name">
                                     <button style="padding: 0" type="submit" class="btn btn-danger">Remove</button>
                                 </form>
                             #else
@@ -44,6 +45,5 @@
             </table>
         </div>
     </div>
-
-    #parse("modals/projectMembershipCreationModal.vm")
 </div>
+#parse("modals/projectMembershipCreationModal.vm")

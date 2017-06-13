@@ -8,22 +8,22 @@
             <div class="modal-body">
                 <form action="/projectMembershipCreation" method="post">
                     <div class="form-group">
-                        <label for="member">Member login:</label>
-                        <input list="users" name="member">
-                        <datalist id="users">
+                        <label for="userLogin">Member login:</label>
+                        <select class="form-control" name="userLogin">
                             #foreach($user in $allUsers)
-                            <option value="$user.login [$user.name $user.surname]">
+                                <option value="$user.login">$user.login</option>
                             #end
-                        </datalist>
+                        </select>
                     </div>
                     <div class="form-group">
-                        <label for="role">Role:</label>
-                        <select name="role">
+                        <label for="projectRole">Role:</label>
+                        <select class="form-control" name="projectRole">
                             <option value="OWNER">Owner</option>
                             <option value="MEMBER">Member</option>
                             <option value="GUEST">Guest</option>
                         </select>
                     </div>
+                    <input type="hidden" name="projectName" value="$project.name">
                     <button type="submit" class="btn btn-primary">Add</button>
                 </form>
             </div>

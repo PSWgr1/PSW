@@ -38,4 +38,10 @@ public interface Command<T> {
         ProjectRemovalValidator validator = new ProjectRemovalValidator(projectsRepository, currentUserRepository);
         return new ValidatingCommand<>(command, validator);
     }
+
+    static ValidatingCommand<ProjectMembership> projectMembershipCreationCommand(ProjectsRepository projectsRepository) {
+        ProjectMembershipCreationCommand command = new ProjectMembershipCreationCommand(projectsRepository);
+        ProjectMembershipCreationValidator validator = new ProjectMembershipCreationValidator();
+        return new ValidatingCommand<>(command, validator);
+    }
 }

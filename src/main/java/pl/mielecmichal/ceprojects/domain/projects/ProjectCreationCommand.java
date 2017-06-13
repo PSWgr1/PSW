@@ -20,8 +20,9 @@ public class ProjectCreationCommand implements Command<Project> {
 
         List<ProjectMembership> memberships = Arrays.asList(
                 ProjectMembership.builder()
-                        .user(user)
+                        .userLogin(user.getLogin())
                         .projectRole(ProjectRole.OWNER)
+                        .projectName(project.getName())
                         .build()
         );
 

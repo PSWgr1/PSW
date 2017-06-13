@@ -31,7 +31,7 @@ public class ProjectRemovalValidator implements Validator<Project> {
 
     private static boolean isUserProjectOwner(User user, Project project) {
         return project.getMemberships().stream()
-                .filter(m -> m.getUser().getLogin().equals(user.getLogin()))
+                .filter(m -> m.getUserLogin().equals(user.getLogin()))
                 .anyMatch(m -> m.getProjectRole() == ProjectRole.OWNER);
     }
 }
