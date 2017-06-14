@@ -44,4 +44,14 @@ public interface Command<T> {
         ProjectMembershipCreationValidator validator = new ProjectMembershipCreationValidator();
         return new ValidatingCommand<>(command, validator);
     }
+
+    static ValidatingCommand<ProjectTask> projectTaskCreationCommand(
+            ProjectsRepository projectsRepository,
+            CurrentUserRepository currentUserRepository,
+            UsersRepository usersRepository
+    ) {
+        ProjectTaskCreationCommand command = new ProjectTaskCreationCommand(projectsRepository, currentUserRepository, usersRepository);
+        ProjectTaskCreationValidator validator = new ProjectTaskCreationValidator();
+        return new ValidatingCommand<>(command, validator);
+    }
 }

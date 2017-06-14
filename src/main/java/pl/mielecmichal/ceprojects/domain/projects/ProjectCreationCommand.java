@@ -5,6 +5,7 @@ import pl.mielecmichal.ceprojects.domain.commands.Command;
 import pl.mielecmichal.ceprojects.domain.users.CurrentUserRepository;
 import pl.mielecmichal.ceprojects.domain.users.User;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -29,6 +30,7 @@ public class ProjectCreationCommand implements Command<Project> {
         Project newProject = Project.builder()
                 .name(project.getName())
                 .memberships(memberships)
+                .tasks(new ArrayList<>())
                 .build();
 
         projectsRepository.save(newProject);

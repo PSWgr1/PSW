@@ -13,6 +13,9 @@ public enum Mapping {
     PROJECT_CREATION("/projectCreation"),
     PROJECT_REMOVAL("/projectRemoval"),
     PROJECT_MEMBERSHIP_CREATION("/projectMembershipCreation"),
+    PROJECT_TASK_CREATION("/projectTaskCreation"),
+    PROJECT_TASK_DELETION("/projectTaskDeletion"),
+    PROJECT_TASK_CHANGE("/projectTaskChange"),
     REGISTRATION("/registration"),
     LOGIN("/login"),
     LOGOUT("/logout");

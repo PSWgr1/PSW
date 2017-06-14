@@ -1,8 +1,77 @@
 <div class="row">
     <div class="panel panel-primary" style="padding: 0; margin: 3px;">
         <div class="panel-heading">
+            Project $project.name tasks:
+            <button style="padding: 0" type="button" class="btn btn-info pull-right" data-toggle="modal"
+                    data-target="#projectTaskCreationModal">
+                Add task
+            </button>
+        </div>
+        <div class="panel-body">
+            #if($project.tasks.size() == 0)
+                <h4>There is no task in this project!</h4>
+            #end
+
+            #if($project.tasks.size() > 0)
+                <table class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Author</th>
+                        <th>Assignee</th>
+                        <th>Created</th>
+                        <th>Expire</th>
+                        <th>Status</th>
+                        <th>Change</th>
+                        <th>Remove</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+
+                        #foreach($task in $project.tasks)
+                        <tr>
+
+                            <td>$task.name</td>
+                            <td>$task.authorLogin</td>
+                            <td>$task.assigneeLogin</td>
+                            <td>$task.creationDate</td>
+                            <td>$task.expirationDate</td>
+                            <td>$task.status</td>
+                            <td>
+                                <button style="padding: 0" type="button" class="btn btn-info pull-right"
+                                        data-toggle="modal" data-target="#projectTaskChangeModal">
+                                    Change
+                                </button>
+                                #parse("modals/projectTaskChangeModal.vm")
+                            </td>
+                            <td>
+                                #if($isUserOwner)
+                                    <form action="/projectTaskDeletion" method="post">
+                                        <input type="hidden" id="projectName" name="projectName" value="$project.name">
+                                        <input type="hidden" id="taskName" name="taskName" value="$task.name">
+
+                                        <button style="padding: 0" type="submit" class="btn btn-danger">Remove</button>
+                                    </form>
+                                #else
+                                    ---
+                                #end
+
+                            </td>
+                        </tr>
+                        #end
+                    </tbody>
+                </table>
+            #end
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="panel panel-primary" style="padding: 0; margin: 3px;">
+        <div class="panel-heading">
             Project $project.name members:
-            <button style="padding: 0" type="button" class="btn btn-info pull-right" data-toggle="modal" data-target="#projectMembershipCreationModal">
+            <button style="padding: 0" type="button" class="btn btn-info pull-right" data-toggle="modal"
+                    data-target="#projectMembershipCreationModal">
                 Add member
             </button>
         </div>
@@ -31,7 +100,8 @@
                             #if($isUserOwner)
                                 <form action="/projectMembershipRemoval" method="post">
                                     <input type="hidden" id="projectName" name="projectName" value="$project.name">
-                                    <input type="hidden" id="userName" name="userName" value="$memberships.get($foreach.index).name">
+                                    <input type="hidden" id="userName" name="userName"
+                                           value="$memberships.get($foreach.index).name">
                                     <button style="padding: 0" type="submit" class="btn btn-danger">Remove</button>
                                 </form>
                             #else
@@ -46,4 +116,5 @@
         </div>
     </div>
 </div>
+#parse("modals/projectTaskCreationModal.vm")
 #parse("modals/projectMembershipCreationModal.vm")

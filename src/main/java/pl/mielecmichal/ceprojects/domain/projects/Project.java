@@ -13,6 +13,7 @@ public class Project {
 
     private String name;
     private List<ProjectMembership> memberships;
+    private List<ProjectTask> tasks;
 
     public boolean isMember(User user) {
         return memberships.stream()
@@ -34,7 +35,41 @@ public class Project {
         return Project.builder()
                 .name(name)
                 .memberships(newMemberships)
+                .tasks(tasks)
                 .build();
+    }
+
+    public Project addTast(ProjectTask projectTask) {
+        List<ProjectTask> newTasks = new ArrayList<>();
+        newTasks.addAll(tasks);
+        newTasks.add(projectTask);
+
+        return Project.builder()
+                .name(name)
+                .memberships(memberships)
+                .tasks(newTasks)
+                .build();
+
+    }
+
+    public Project removeTask(ProjectTask projectTask) {
+        List<ProjectTask> newTasks = new ArrayList<>();
+        newTasks.addAll(tasks);
+        newTasks.remove(projectTask);
+
+        return Project.builder()
+                .name(name)
+                .memberships(memberships)
+                .tasks(newTasks)
+                .build();
+
+    }
+
+    public ProjectTask findTask(String taskName) {
+        return tasks.stream()
+                .filter(t -> t.getName().equals(taskName))
+                .findFirst()
+                .orElse(null);
     }
 
 }

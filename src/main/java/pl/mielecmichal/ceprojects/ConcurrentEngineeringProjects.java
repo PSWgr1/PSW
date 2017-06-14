@@ -2,6 +2,7 @@ package pl.mielecmichal.ceprojects;
 
 import org.eclipse.jetty.http.HttpMethod;
 import pl.mielecmichal.ceprojects.constants.Mapping;
+import pl.mielecmichal.ceprojects.domain.projects.ProjectTaskCreationCommand;
 import pl.mielecmichal.ceprojects.domain.projects.ProjectsRepository;
 import pl.mielecmichal.ceprojects.domain.users.CurrentUserRepository;
 import pl.mielecmichal.ceprojects.filters.AuthenticationFilter;
@@ -27,6 +28,9 @@ public class ConcurrentEngineeringProjects {
         ProjectRemovalHandler projectRemovalHandler = new ProjectRemovalHandler(projectsRepository);
         ProjectDetailsHandler projectDetailsHandler = new ProjectDetailsHandler(usersRepository, projectsRepository);
         ProjectMembershipCreationHandler projectMembershipCreationHandler = new ProjectMembershipCreationHandler(projectsRepository, projectDetailsHandler);
+        ProjectTaskCreationHandler projectTaskCreationHandler = new ProjectTaskCreationHandler(projectsRepository, usersRepository, projectDetailsHandler);
+        ProjectTaskDeletionHandler projectTaskDeletionHandler = new ProjectTaskDeletionHandler(projectsRepository);
+        ProjectTaskChangeHandler projectTaskChangeHandler = new ProjectTaskChangeHandler(projectsRepository);
 
         Spark.staticFileLocation("/static");
 
@@ -46,6 +50,10 @@ public class ConcurrentEngineeringProjects {
         Spark.post(Mapping.PROJECT_CREATION.getPath(), projectCreationHandler);
         Spark.post(Mapping.PROJECT_REMOVAL.getPath(), projectRemovalHandler);
         Spark.post(Mapping.PROJECT_MEMBERSHIP_CREATION.getPath(), projectMembershipCreationHandler);
+        Spark.post(Mapping.PROJECT_TASK_CREATION.getPath(), projectTaskCreationHandler);
+        Spark.post(Mapping.PROJECT_TASK_DELETION.getPath(), projectTaskDeletionHandler);
+        Spark.post(Mapping.PROJECT_TASK_CHANGE.getPath(), projectTaskChangeHandler);
+
     }
 
     private ConcurrentEngineeringProjects() {
