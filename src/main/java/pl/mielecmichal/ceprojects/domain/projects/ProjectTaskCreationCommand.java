@@ -17,7 +17,7 @@ public class ProjectTaskCreationCommand implements Command<ProjectTask> {
     @Override
     public CommandResult execute(ProjectTask task) {
         Project existingProject = projectsRepository.find(task.getProjectName());
-
+        projectsRepository.delete(existingProject.getName());
         ProjectTask projectTask = ProjectTask.builder()
                 .name(task.getName())
                 .assigneeLogin(task.getAssigneeLogin())
